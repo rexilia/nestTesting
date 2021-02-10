@@ -1,29 +1,20 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  Delete,
-  Query,
-} from '@nestjs/common';
-import { COURSES } from './courses.mock';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { timeStamp } from 'console';
+import { CourseDetails } from './courseDetails.dto';
 import { CoursesService } from './courses.service';
+
 @Controller('courses')
 export class CoursesController {
-  constructor(private coursesService: CoursesService) {}
-  @Get()
-  async getCourses() {
-    const courses = await this.coursesService.getCourses();
-  }
-  @Get(':courseId')
-  async getCourse(@Param('courseId') courseId) {
-    const course = await this.coursesService.getCourse(courseId);
-    return course;
-  }
-  @Delete()
-  async deleteCourse(@Query() query) {
-    const courses = await this.coursesService.deleteCourse(query.courseId);
-    return courses;
-  }
+
+    constructor(private CS : CoursesService){}
+
+    @Post()
+    addCourse(@Body() data : CourseDetails){
+        return this.CS.addCourse(data);
+    }
+
+    @Get()
+    getCourse(){
+        return this.CS.getCourse()
+    }
 }
